@@ -1,0 +1,128 @@
+---
+title: "Function in R"
+author: "Shankar"
+date: "2024-02-02"
+output: html_document
+---
+
+Simple function create and call 
+```{r}
+
+studentInfo <- function(){
+  name <- "Ram Pandey"
+  id <- 10L
+  age <- 13
+  sprintf("Name of student : %s, Id : %d , Age : %d",name, id,age)
+}
+studentInfo()
+
+```
+Function with parameters and return type
+
+```{r}
+
+stockData <- function(openPrice, closePrice, stockName){
+  
+  return(paste("Open Price : ", openPrice , "Close Price : ", closePrice, "StockName : ",stockName))
+}
+
+stockDetails <- stockData(120, 123, "Apple Inc")
+stockDetails
+
+```
+Default Parameter Value
+If we call the function without an argument, it uses the default value
+Use the SPRINTF function to build a string with input parameters.
+
+```{r}
+
+countryDetails <- function(countryName = "Nepal"){
+sprintf("Country Name : %s", countryName)  
+}
+
+countryDetails("USA")
+countryDetails()
+
+```
+
+Lazy Evaluation of Function
+In R the functions are executed in a lazy fashion. When we say lazy what it means is if some arguments are missing the function is still executed as long as the execution does not involve those arguments.
+
+```{r}
+
+calcualteArea <- function(l, w, h){
+ rectangleArea <- l * w
+ return (rectangleArea)
+}
+
+print(calcualteArea(2,5))
+
+```
+Use the do.call function to allow the user to specify functions.  Functions are specified as a character type.
+could be useful if allowing the user to dynamically change graph calculations
+
+```{r}
+
+calcuateItemPrice <- function(price, taxRate){
+  totalPrice <- (price * taxRate) + price
+  return(totalPrice)
+}
+resultAfterTax <- do.call(what = "calcuateItemPrice", args = list(130,.89))
+resultAfterTax
+```
+
+Nested Functions
+1. Call a function within another function.
+
+```{r}
+
+governmentTaxes <- function(price, tax){
+  toPri <- (price * tax) + price
+  return(toPri)
+}
+
+govWithLocaltaxes <- function(price, tax){
+  locTax <- 1.2
+  totalPrice <- (price * tax) + (locTax * price) + price
+  return(totalPrice)
+}
+
+govWithLocaltaxes(governmentTaxes(100, 0.1), governmentTaxes(100, .90))
+
+```
+Write a function within a function.
+
+```{r}
+
+outerFun <- function(num1){
+  
+  innerFun <- function(num2){
+    sumData <- num1+num2
+    return(sumData)
+  }
+  
+  return(innerFun)
+}
+
+NestedFun <- outerFun(10)
+NestedFun(20)
+
+```
+
+R Function Recursion
+
+```{r}
+
+getFact <- function(num){
+  
+  if(num == 0 || num == 1){
+    return(1) 
+  }else{
+    return(num * getFact(num-1))
+  }
+}
+
+getFact(5)
+
+```
+
